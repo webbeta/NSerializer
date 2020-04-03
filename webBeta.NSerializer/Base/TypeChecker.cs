@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Numerics;
 using webBeta.NSerializer.Metadata.Provider;
 
@@ -88,7 +89,7 @@ namespace webBeta.NSerializer.Base
 
         public bool IsSerializableObject<T>(T value)
         {
-            return !(value is IEnumerable) && _provider.CanProvide(value.GetType());
+            return !IsIterable(value) && _provider.CanProvide(value.GetType());
         }
 
         public bool IsUnserializableObject<T>(T value)
@@ -105,88 +106,37 @@ namespace webBeta.NSerializer.Base
 
         public bool IsIterable<T>(T value)
         {
-            return value is IEnumerable;
+            return value is IList &&
+                   value.GetType().IsGenericType &&
+                   value.GetType().GetGenericTypeDefinition().IsAssignableFrom(typeof(List<>));
         }
 
         public bool IsMap<T>(T value)
         {
-            return value is IDictionary;
+            return value is IDictionary &&
+                   value.GetType().IsGenericType &&
+                   value.GetType().GetGenericTypeDefinition().IsAssignableFrom(typeof(Dictionary<,>));
         }
 
-        public void Check<T>(T value, ITypeCallback callback)
+        public void Check<T>(T value,
+            Action<T> itsScalar,
+            Action<IDictionary> itsDictionary,
+            Action<IEnumerable> itsEnumerable,
+            Action<DateTime> itsDate,
+            Action<T> itsSerializableObject)
         {
-            if (IsByte(value))
-            {
-                callback.itsByte(Convert.ToByte(value));
-                callback.itsNumeric(value);
-            }
-            else if (IsShort(value))
-            {
-                callback.itsShort(Convert.ToInt16(value));
-                callback.itsNumeric(value);
-            }
-            else if (IsInteger(value))
-            {
-                callback.itsInteger(Convert.ToInt32(value));
-                callback.itsNumeric(value);
-            }
-            else if (IsBigInteger(value))
-            {
-                callback.itsBigInteger(Convert.ToInt64(value));
-                callback.itsNumeric(value);
-            }
-            else if (IsLong(value))
-            {
-                callback.itsLong(Convert.ToInt64(value));
-                callback.itsNumeric(value);
-            }
-            else if (IsFloat(value))
-            {
-                callback.itsFloat(Convert.ToSingle(value));
-                callback.itsNumeric(value);
-            }
-            else if (IsDouble(value))
-            {
-                callback.itsDouble(Convert.ToDouble(value));
-                callback.itsNumeric(value);
-            }
-            else if (IsBigDecimal(value))
-            {
-                callback.itsBigDecimal(Convert.ToDecimal(value));
-                callback.itsNumeric(value);
-            }
-            else if (IsString(value))
-            {
-                callback.itsString(Convert.ToString(value));
-            }
-            else if (IsStringParseable(value))
-            {
-                callback.itsStringParseable(value);
-            }
-            else if (IsBool(value))
-            {
-                callback.itsBoolean(Convert.ToBoolean(value));
-            }
-            else if (IsDate(value))
-            {
-                callback.itsDate(Convert.ToDateTime(value));
-            }
-            else if (IsUnserializableObject(value))
-            {
-                callback.itsUnserializableObject(value);
-            }
-            else if (IsSerializableObject(value))
-            {
-                callback.itsSerializableObject(value);
-            }
-            else if (IsIterable(value))
-            {
-                callback.itsIterable((IEnumerable) value);
-            }
+            if (IsIterable(value))
+                itsEnumerable((IEnumerable) value);
             else if (IsMap(value))
-            {
-                callback.itsMap((IDictionary) value);
-            }
+                itsDictionary((IDictionary) value);
+            else if (IsSerializableObject(value))
+                itsSerializableObject(value);
+            else if (IsDate(value))
+                itsDate(Convert.ToDateTime(value));
+            else if (IsStringParseable(value))
+                itsScalar((T) Convert.ChangeType(value.ToString(), typeof(T)));
+            else
+                itsScalar(value);
         }
     }
 }

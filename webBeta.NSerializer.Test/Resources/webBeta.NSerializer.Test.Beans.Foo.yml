@@ -1,0 +1,29 @@
+webBeta.NSerializer.Test.Beans.Foo:
+  properties:
+    id:
+      groups: [a, b, only_correct_metadata]
+    fooField:
+      groups: [b, c, recursive_foo, recursive_foo_map]
+    bar:
+      groups: [c, d, only_correct_metadata]
+    list:
+      groups: [list]
+    listOfBean:
+      groups: [list_of_bean]
+    nullField:
+      groups: [null_group]
+    unexistentNullField:
+      groups: [null_group_unexistent]
+    truncatedNameField:
+      serialized_name: anotherName
+      groups: [truncated_name]
+    privateFoo:
+      groups: [private_foo]
+    map:
+      groups: [map]
+    beanWithWrongMetadata:
+      groups: [only_correct_metadata]
+    recursiveList:
+      groups: [recursive_foo]
+    recursiveMap:
+      groups: [recursive_foo_map]

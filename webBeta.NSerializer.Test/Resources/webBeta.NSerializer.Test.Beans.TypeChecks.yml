@@ -1,0 +1,44 @@
+webBeta.NSerializer.Test.Beans.TypeChecks:
+  properties:
+    primitiveByte:
+      groups: [numerics]
+    objectByte:
+      groups: [numerics]
+    primitiveShort:
+      groups: [numerics]
+    objectShort:
+      groups: [numerics]
+    primitiveInt:
+      groups: [numerics]
+    objectInt:
+      groups: [numerics]
+    bigInt:
+      groups: [numerics]
+    primitiveLong:
+      groups: [numerics]
+    objectLong:
+      groups: [numerics]
+    primitiveDouble:
+      groups: [numerics]
+    objectDouble:
+      groups: [numerics]
+    primitiveFloat:
+      groups: [numerics]
+    objectFloat:
+      groups: [numerics]
+    bigDecimal:
+      groups: [numerics]
+    fooString:
+      groups: [string]
+    fooEnum:
+      groups: [string]
+    fooUUID:
+      groups: [string]
+    primitiveBoolean:
+      groups: [boolean]
+    objectBoolean:
+      groups: [boolean]
+    fooDate:
+      groups: [date]
+    fooTimestamp:
+      groups: [date]

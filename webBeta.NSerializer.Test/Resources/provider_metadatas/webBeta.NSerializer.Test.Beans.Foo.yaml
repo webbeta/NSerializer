@@ -1,0 +1,6 @@
+webBeta.NSerializer.Test.Beans.Foo:
+  properties:
+    id:
+      groups: [grupo]
+    fooField:
+      groups: [grupo]

@@ -1,0 +1,22 @@
+webBeta.NSerializer.Test.Beans.ClassWithGetters:
+  virtual_properties:
+    getGetterWithoutProperty:
+      serialized_name: fake
+      groups: [fake_group]
+    getGetterWithoutProperty2:
+      groups: [fake_group2]
+  properties:
+    id:
+      groups: [a, fake_group]
+    foo:
+      groups: [a]
+    bar:
+      groups: [a]
+    barMethod:
+      access_type: public_method
+      groups: [b]
+    barMethod2:
+      access_type: public_method
+      accessor:
+        getter: getBarMethodBis
+      groups: [c]

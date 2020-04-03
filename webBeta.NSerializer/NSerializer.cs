@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
-using System.Numerics;
 using Newtonsoft.Json;
 using webBeta.NSerializer.Base;
 using webBeta.NSerializer.Base.Types;
@@ -18,19 +17,20 @@ namespace webBeta.NSerializer
 
         private JsonWriter _generator;
 
+        private ILogger _logger;
+
         private ISerializerMetadataProvider _provider;
         private TypeChecker _typeChecker;
         private TextWriter _writer;
 
-        private ILogger _logger;
-        
         public NSerializer(ConfigurationManager configurationManager)
         {
             _configurationManager = configurationManager;
             _formatter = configurationManager.GetFieldFormatter();
         }
-        
-        public void SetLogger(ILogger logger) {
+
+        public void SetLogger(ILogger logger)
+        {
             _logger = logger;
         }
 
@@ -45,7 +45,7 @@ namespace webBeta.NSerializer
                 _generator = new JsonTextWriter(_writer);
                 return true;
             }
-            catch 
+            catch
             {
                 _generator = null;
                 return false;
@@ -84,9 +84,65 @@ namespace webBeta.NSerializer
             return finalFieldName;
         }
 
-        private void FillRawValue(JsonWriter gen, ParentFieldData parentFieldData, object value, string[] group)
+        private void FillDateValue(JsonWriter gen, DateTime date)
         {
-            _typeChecker.Check(value, new MyStruct(gen));
+            if (_configurationManager.GetDateFormatType() == DateFormatType.UNIX_TIMESTAMP)
+            {
+                var dateTimeOffset = new DateTimeOffset(date);
+                gen.WriteValue(dateTimeOffset.ToUnixTimeMilliseconds());
+            }
+            else
+            {
+                gen.WriteValue(date);
+            }
+        }
+
+        private void FillRawValue(JsonWriter gen, IParentFieldData parentFieldData, object value, string[] group)
+        {
+            _typeChecker.Check(value,
+                scalar => gen.WriteValue(scalar),
+                dictionary =>
+                {
+                    gen.WriteStartObject();
+                    var sortedKeys = new SortedList(dictionary);
+                    foreach (var key in sortedKeys.Keys)
+                    {
+                        var parentGroups = _provider.GetGroupsByFieldName(parentFieldData.GetKlass(),
+                            parentFieldData.GetFieldName());
+                        var fieldData =
+                            new ParentFieldData(parentFieldData.GetKlass(), parentFieldData.GetFieldName(),
+                                parentGroups);
+
+                        gen.WritePropertyName(key.ToString());
+                        FillRawValue(gen, fieldData, dictionary[key], group);
+                    }
+
+                    gen.WriteEndObject();
+                },
+                enumerable =>
+                {
+                    gen.WriteStartArray();
+                    foreach (var arrValue in enumerable)
+                    {
+                        var parentGroups = _provider.GetGroupsByFieldName(parentFieldData.GetKlass(),
+                            parentFieldData.GetFieldName());
+                        var fieldData =
+                            new ParentFieldData(parentFieldData.GetKlass(), parentFieldData.GetFieldName(),
+                                parentGroups);
+
+                        FillRawValue(gen, fieldData, arrValue, group);
+                    }
+
+                    gen.WriteEndArray();
+                },
+                date => FillDateValue(gen, date),
+                stringSerializable =>
+                {
+                    if (parentFieldData != null && parentFieldData.GetKlass() == stringSerializable.GetType())
+                        FillWith(false, gen, parentFieldData, value, parentFieldData.GetGroups());
+                    else
+                        FillWith(false, gen, parentFieldData, value, group);
+                });
         }
 
         private void FillWith(bool asArray, JsonWriter gen, IParentFieldData parentData, object ob, string[] group)
@@ -117,20 +173,20 @@ namespace webBeta.NSerializer
 
                     if (!_typeChecker.IsUnserializableObject(accessor.Get<object>()))
                     {
-                        var fieldData = new ParentFieldData(klass, fieldName, @group);
+                        var fieldData = new ParentFieldData(klass, fieldName, group);
 
                         gen.WritePropertyName(GetSerializedName(klass, fieldName));
-                        FillRawValue(gen, fieldData, accessor.Get<object>(), @group);
+                        FillRawValue(gen, fieldData, accessor.Get<object>(), group);
                     }
                 }
-            }
+            } 
             else if (_typeChecker.IsIterable(ob))
             {
                 foreach (var arrValue in (IEnumerable) ob)
                 {
-                    var fieldData = new ParentFieldData(arrValue.GetType(), null, @group);
+                    var fieldData = new ParentFieldData(arrValue.GetType(), null, group);
 
-                    FillRawValue(gen, fieldData, arrValue, @group);
+                    FillRawValue(gen, fieldData, arrValue, group);
                 }
             }
 
@@ -163,101 +219,6 @@ namespace webBeta.NSerializer
             catch
             {
                 return null;
-            }
-        }
-
-        private struct MyStruct : ITypeCallback
-        {
-            private readonly JsonWriter _gen;
-
-            public MyStruct(JsonWriter gen)
-            {
-                _gen = gen;
-            }
-
-            public Func<byte, bool> itsByte(byte value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Func<short, bool> itsShort(short value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Func<int, bool> itsInteger(int value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Func<BigInteger, bool> itsBigInteger(BigInteger value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Func<long, bool> itsLong(long value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Func<float, bool> itsFloat(float value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Func<double, bool> itsDouble(double value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Func<decimal, bool> itsBigDecimal(decimal value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Func<object, bool> itsNumeric(object value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Func<string, bool> itsString(string value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Func<object, bool> itsStringParseable(object value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Func<bool, bool> itsBoolean(bool value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Func<DateTime, bool> itsDate(DateTime value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Func<object, bool> itsSerializableObject(object value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Func<object, bool> itsUnserializableObject(object value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Func<IEnumerable, bool> itsIterable(IEnumerable value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public Func<IDictionary, bool> itsMap(IDictionary value)
-            {
-                throw new NotImplementedException();
             }
         }
     }

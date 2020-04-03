@@ -1,0 +1,4 @@
+webBeta.NSerializer.Test.Beans.PrivateFoo:
+  properties:
+    id:
+      groups: [private_foo]

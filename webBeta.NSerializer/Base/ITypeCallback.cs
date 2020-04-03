@@ -6,38 +6,38 @@ namespace webBeta.NSerializer.Base
 {
     public interface ITypeCallback
     {
-        Func<byte, bool> itsByte(byte value);
+        public delegate void itsByte(byte value);
 
-        Func<short, bool> itsShort(short value);
+        public delegate void itsShort(short value);
 
-        Func<int, bool> itsInteger(int value);
+        public delegate void itsInteger(int value);
 
-        Func<BigInteger, bool> itsBigInteger(BigInteger value);
+        public delegate void itsBigInteger(BigInteger value);
 
-        Func<long, bool> itsLong(long value);
+        public delegate void itsLong(long value);
 
-        Func<float, bool> itsFloat(float value);
+        public delegate void itsFloat(float value);
 
-        Func<double, bool> itsDouble(double value);
+        public delegate void itsDouble(double value);
 
-        Func<decimal, bool> itsBigDecimal(decimal value);
+        public delegate void itsBigDecimal(decimal value);
 
-        Func<object, bool> itsNumeric(object value);
+        public delegate void itsNumeric(object value);
 
-        Func<string, bool> itsString(string value);
+        public delegate void itsString(string value);
 
-        Func<object, bool> itsStringParseable(object value);
+        public delegate void itsStringParseable(object value);
 
-        Func<bool, bool> itsBoolean(bool value);
+        public delegate void itsBoolean(bool value);
 
-        Func<DateTime, bool> itsDate(DateTime value);
+        public delegate void itsDate(DateTime value);
 
-        Func<object, bool> itsSerializableObject(object value);
+        public delegate void itsSerializableObject(object value);
 
-        Func<object, bool> itsUnserializableObject(object value);
+        public delegate void itsUnserializableObject(object value);
 
-        Func<IEnumerable, bool> itsIterable(IEnumerable value);
+        public delegate void itsIterable(IEnumerable value);
 
-        Func<IDictionary, bool> itsMap(IDictionary value);
+        public delegate void itsMap(IDictionary value);
     }
 }

@@ -1,0 +1,4 @@
+webBeta.NSerializer.Test.Beans.Bar:
+  properties:
+    id:
+      groups: [grupo]

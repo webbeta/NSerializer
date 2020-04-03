@@ -1,0 +1,6 @@
+webBeta.NSerializer.Test.Beans.WrongMetadata:
+  properties:
+    id:
+      groups: [a]
+    foo:
+      groups: [a]

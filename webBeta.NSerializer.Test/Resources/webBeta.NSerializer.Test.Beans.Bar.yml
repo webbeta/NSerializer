@@ -1,0 +1,8 @@
+webBeta.NSerializer.Test.Beans.Bar:
+  properties:
+    id:
+      groups: [a, b]
+    barField:
+      groups: [c, d, only_correct_metadata]
+    nullField:
+      groups: [null_group]

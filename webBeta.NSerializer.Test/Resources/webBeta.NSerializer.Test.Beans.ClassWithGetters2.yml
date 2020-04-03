@@ -1,0 +1,12 @@
+webBeta.NSerializer.Test.Beans.ClassWithGetters2:
+  access_type: public_method
+  properties:
+    id:
+      groups: [a]
+    foo:
+      groups: [a]
+    bar:
+      groups: [a]
+    truncatedNameField:
+      serialized_name: anotherName
+      groups: [truncated_name]
