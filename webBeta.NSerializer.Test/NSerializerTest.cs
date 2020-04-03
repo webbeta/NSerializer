@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -20,7 +19,7 @@ namespace webBeta.NSerializer.Test
             var currentDirectory = Directory.GetParent(Directory.GetCurrentDirectory());
             var config = new Dictionary<string, object>
             {
-                {ConfigurationManager.METADATA_DIR_KEY, $"{currentDirectory.Parent?.Parent}\\Resources"},
+                {ConfigurationManager.METADATA_DIR_KEY, Path.Combine(currentDirectory.Parent?.Parent?.ToString(), "Resources")},
                 {ConfigurationManager.INCLUDE_NULL_VALUES_KEY, withNulls},
                 {ConfigurationManager.FIELD_FORMATTING_METHOD_KEY, type.ToString()},
                 {ConfigurationManager.FIELD_ACCESS_TYPE_KEY, accessType.ToString()},
