@@ -100,8 +100,19 @@ namespace webBeta.NSerializer.Base
                     const BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
                                                    | BindingFlags.Static;
                     var field = klass.GetTypeInfo().GetField(_fieldName, bindFlags);
-                    _value = field.GetValue(_ob);
-                    _exists = true;
+                    if (field == null)
+                    {
+                        var property = klass.GetTypeInfo().GetProperty(_fieldName, bindFlags);
+                        _value = property?.GetValue(_ob);
+                        _exists = property != null;
+                    }
+                    else
+                    {
+                        _value = field.GetValue(_ob);
+                        _exists = true;
+                    }
+
+                    if (_exists) break;
                 }
                 catch
                 {

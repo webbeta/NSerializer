@@ -518,6 +518,26 @@ namespace webBeta.NSerializer.Test
         }
 
         [Fact]
+        public void test_simple_serialization_using_autoproperties()
+        {
+            var serializer = GetSerializerAs(FieldFormatterType.INHERITED, FieldAccessType.PROPERTY,
+                DateFormatType.ISO8601, true);
+
+            var foo = new ClassWithAutoproperties();
+
+            var parsed = serializer.Serialize(foo, "a");
+
+            var mock = new JObject
+            {
+                {"foo", "Hello world!"}, 
+                {"bar", true}
+            };
+
+            parsed.Should().NotBeEmpty();
+            parsed.Should().BeEquivalentTo(mock.ToString(Formatting.None));
+        }
+
+        [Fact]
         public void
             test_simple_serialization_using_PROPERTY_accessor_at_global_config_but_GETTERS_in_metadata_head_config()
         {
@@ -561,7 +581,13 @@ namespace webBeta.NSerializer.Test
 
             var parsed = serializer.Serialize(foo, "a", "b");
 
-            var mock = new JObject {{"id", 500}, {"foo", "Hello world!"}, {"bar", true}, {"barMethod", "Foo Bar"}};
+            var mock = new JObject
+            {
+                {"id", 500},
+                {"foo", "Hello world!"}, 
+                {"bar", true},
+                {"barMethod", "Foo Bar"}
+            };
 
             parsed.Should().NotBeEmpty();
             parsed.Should().BeEquivalentTo(mock.ToString(Formatting.None));
@@ -580,7 +606,10 @@ namespace webBeta.NSerializer.Test
 
             var mock = new JObject
             {
-                {"id", 500}, {"foo", "Hello world!"}, {"bar", true}, {"barMethod2", "Foo Bar Foo Bar"}
+                {"id", 500},
+                {"foo", "Hello world!"},
+                {"bar", true}, 
+                {"barMethod2", "Foo Bar Foo Bar"}
             };
 
             parsed.Should().NotBeEmpty();

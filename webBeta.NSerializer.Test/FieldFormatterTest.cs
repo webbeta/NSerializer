@@ -100,7 +100,7 @@ namespace webBeta.NSerializer.Test
         public void test_formatter_throws_exception_with_fields_with_whitespace()
         {
             var formatter = new FieldFormatter(FieldFormatterType.INHERITED);
-            formatter.Invoking(y => y.Format("Hola don pepito")).Should().Throw<ArgumentException>();
+            formatter.Invoking(frm => frm.Format("Hola don pepito")).Should().Throw<ArgumentException>();
         }
     }
 }

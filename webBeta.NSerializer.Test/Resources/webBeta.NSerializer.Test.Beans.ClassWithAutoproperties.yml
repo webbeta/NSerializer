@@ -1,0 +1,6 @@
+webBeta.NSerializer.Test.Beans.ClassWithAutoproperties:
+  properties:
+    Foo:
+      groups: [a]
+    Bar:
+      groups: [a]
