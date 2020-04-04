@@ -21,7 +21,7 @@ namespace webBeta.NSerializer.Test
             var config = new Dictionary<string, object>
             {
                 {
-                    ConfigurationManager.METADATA_DIR_KEY,
+                    ConfigurationManager.MetadataDirKey,
                     Path.Combine(currentDirectory.Parent?.Parent?.ToString(), "Resources")
                 }
             };
@@ -31,7 +31,7 @@ namespace webBeta.NSerializer.Test
             var environment = new MockEnvironment();
 
             var fileMetadataAccessor = new FileMetadataAccessor();
-            fileMetadataAccessor.SetMetadataPath((string) config[ConfigurationManager.METADATA_DIR_KEY]);
+            fileMetadataAccessor.SetMetadataPath((string) config[ConfigurationManager.MetadataDirKey]);
 
             var cache = new MockCache();
 

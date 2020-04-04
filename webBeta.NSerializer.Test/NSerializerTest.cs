@@ -19,11 +19,11 @@ namespace webBeta.NSerializer.Test
             var currentDirectory = Directory.GetParent(Directory.GetCurrentDirectory());
             var config = new Dictionary<string, object>
             {
-                {ConfigurationManager.METADATA_DIR_KEY, Path.Combine(currentDirectory.Parent?.Parent?.ToString(), "Resources")},
-                {ConfigurationManager.INCLUDE_NULL_VALUES_KEY, withNulls},
-                {ConfigurationManager.FIELD_FORMATTING_METHOD_KEY, type.ToString()},
-                {ConfigurationManager.FIELD_ACCESS_TYPE_KEY, accessType.ToString()},
-                {ConfigurationManager.DATE_FORMAT_KEY, dateFormatType.ToString()}
+                {ConfigurationManager.MetadataDirKey, Path.Combine(currentDirectory.Parent?.Parent?.ToString(), "Resources")},
+                {ConfigurationManager.IncludeNullValuesKey, withNulls},
+                {ConfigurationManager.FieldFormattingMethodKey, type.ToString()},
+                {ConfigurationManager.FieldAccessTypeKey, accessType.ToString()},
+                {ConfigurationManager.DateFormatKey, dateFormatType.ToString()}
             };
 
             var configurationProvider = new MockConfigurationProvider(config);

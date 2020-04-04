@@ -9,19 +9,20 @@ namespace webBeta.NSerializer.Configuration
 {
     public class ConfigurationManager
     {
-        public const string METADATA_DIR_KEY = "serializer.metadata.dir";
-        public const string INCLUDE_NULL_VALUES_KEY = "serializer.include_null_values";
-        public const string FIELD_FORMATTING_METHOD_KEY = "serializer.field_formatting_method";
-        public const string FIELD_ACCESS_TYPE_KEY = "serializer.access_type";
-        public const string DATE_FORMAT_KEY = "serializer.date_format";
-        private readonly FieldAccessType accessType;
-        private readonly DateFormatType dateFormatType;
-        private readonly FieldFormatterType formatterType;
-        private readonly bool includeNullValues;
+        public const string MetadataDirKey = "serializer.metadata.dir";
+        public const string IncludeNullValuesKey = "serializer.include_null_values";
+        public const string FieldFormattingMethodKey = "serializer.field_formatting_method";
+        public const string FieldAccessTypeKey = "serializer.access_type";
+        public const string DateFormatKey = "serializer.date_format";
 
-        private readonly IMetadataAccessor metadataAccessor;
+        private readonly FieldAccessType _accessType;
+        private readonly DateFormatType _dateFormatType;
+        private readonly FieldFormatterType _formatterType;
+        private readonly bool _includeNullValues;
 
-        private readonly string metadataPath;
+        private readonly IMetadataAccessor _metadataAccessor;
+
+        private readonly string _metadataPath;
 
         public ConfigurationManager(
             IConfigurationProvider conf,
@@ -29,57 +30,52 @@ namespace webBeta.NSerializer.Configuration
             ICache cache
         )
         {
-            metadataPath = conf.GetString(METADATA_DIR_KEY, "conf/serializer/");
-            includeNullValues = conf.GetBoolean(INCLUDE_NULL_VALUES_KEY, false);
-            Enum.TryParse(conf.GetString(FIELD_FORMATTING_METHOD_KEY, FieldFormatterType.LOWER_UNDERSCORE.ToString()),
-                true, out formatterType);
-            ;
-            Enum.TryParse(conf.GetString(FIELD_ACCESS_TYPE_KEY, FieldAccessType.PROPERTY.ToString()), true,
-                out accessType);
-            ;
-            Enum.TryParse(conf.GetString(DATE_FORMAT_KEY, DateFormatType.ISO8601.ToString()), true, out dateFormatType);
+            _metadataPath = conf.GetString(MetadataDirKey, "conf/serializer/");
+            _includeNullValues = conf.GetBoolean(IncludeNullValuesKey, false);
+            Enum.TryParse(conf.GetString(FieldFormattingMethodKey, FieldFormatterType.LOWER_UNDERSCORE.ToString()),
+                true, out _formatterType);
+            Enum.TryParse(conf.GetString(FieldAccessTypeKey, FieldAccessType.PROPERTY.ToString()), true,
+                out _accessType);
+            Enum.TryParse(conf.GetString(DateFormatKey, DateFormatType.ISO8601.ToString()), true, out _dateFormatType);
 
-            if (environment.IsProd())
-                metadataAccessor = new CacheMetadataAccessor(cache);
-            else
-                metadataAccessor = new FileMetadataAccessor();
+            _metadataAccessor = environment.IsProd() ? new CacheMetadataAccessor(cache) : new FileMetadataAccessor();
 
-            metadataAccessor.SetMetadataPath(metadataPath);
+            _metadataAccessor.SetMetadataPath(_metadataPath);
         }
 
         public string GetMetadataPath()
         {
-            return metadataPath;
+            return _metadataPath;
         }
 
         public bool GetIncludeNullValues()
         {
-            return includeNullValues;
+            return _includeNullValues;
         }
 
         public IMetadataAccessor GetMetadataAccessor()
         {
-            return metadataAccessor;
+            return _metadataAccessor;
         }
 
         public ISerializerMetadataProvider NewMetadataProvider()
         {
-            return new SerializerYamlMetadataProvider(metadataAccessor);
+            return new SerializerYamlMetadataProvider(_metadataAccessor);
         }
 
         public IFieldFormatter GetFieldFormatter()
         {
-            return new FieldFormatter(formatterType);
+            return new FieldFormatter(_formatterType);
         }
 
         public FieldAccessType GetAccessType()
         {
-            return accessType;
+            return _accessType;
         }
 
         public DateFormatType GetDateFormatType()
         {
-            return dateFormatType;
+            return _dateFormatType;
         }
     }
 }
