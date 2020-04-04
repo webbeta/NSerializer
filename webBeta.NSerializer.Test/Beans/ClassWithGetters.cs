@@ -1,16 +1,14 @@
 namespace webBeta.NSerializer.Test.Beans
 {
-
     public class ClassWithGetters
     {
-
-        private int id;
-        private string foo;
+        private int? id;
         private bool bar;
 
         private string barMethod;
         private string barMethod2;
         private string barMethod3;
+        private string foo;
 
         public ClassWithGetters()
         {
@@ -22,10 +20,10 @@ namespace webBeta.NSerializer.Test.Beans
             barMethod3 = "Foo";
         }
 
-
-        public ClassWithGetters(int id)
+        public ClassWithGetters(int? id)
         {
-            id = id;
+            if (id.HasValue)
+                this.id = id.Value;
             foo = "Hello world!";
             bar = true;
             barMethod = "Foo";
@@ -102,6 +100,5 @@ namespace webBeta.NSerializer.Test.Beans
         {
             return "I'm fake!";
         }
-
     }
 }
