@@ -1,13 +1,9 @@
 # webBeta NSerializer
 
 [![Build Status](https://travis-ci.org/webbeta/NSerializer.svg?branch=master)](https://travis-ci.org/webbeta/NSerializer)
-[![Coverage Status](https://codecov.io/gh/webbeta/NSerializer/branch/master/graph/badge.svg)](https://codecov.io/gh/webbeta/NSerializer)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cc4bdde6e4434963be65533dc32907ac)](https://app.codacy.com/app/webbeta/NSerializer?utm_source=github.com&utm_medium=referral&utm_content=webbeta/NSerializer&utm_campaign=Badge_Grade_Settings)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/webbeta/NSerializer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/webbeta/NSerializer/?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c9db06803de94cc6aaea9e2fdcbd494e)](https://www.codacy.com/gh/webbeta/NSerializer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=webbeta/NSerializer&amp;utm_campaign=Badge_Grade)
 [![GitHub license](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![NuGet](https://buildstats.info/nuget/NSerializer)](http://www.nuget.org/packages/NSerializer)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/webbeta/NSerializer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/webbeta/NSerializer/alerts/)
-[![Language grade: CSharp](https://img.shields.io/lgtm/grade/csharp/g/webbeta/NSerializer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/webbeta/NSerializer/context:chsarp)
+[![NuGet](https://buildstats.info/nuget/webBeta.NSerializer)](http://www.nuget.org/packages/webBeta.NSerializer)
 
 * [What is webBeta NSerializer?](#what-is-webbeta-nserializer?)
 * [Quick examples](#quick-examples)
