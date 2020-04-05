@@ -2,6 +2,16 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title> Framework agnostic YAML based Serializer for .Net Core</Title>
+        <Authors>Moisés Gramary Barbosa</Authors>
+        <Description>YAML based Serializer for .Net Core, it allows to serialize CSharp objects to be serialized partially using groups, choosing naming conventions, etcetera.</Description>
+        <Copyright>webBeta 2020</Copyright>
+        <PackageProjectUrl>https://github.com/webbeta/NSerializer</PackageProjectUrl>
+        <PackageLicense>https://github.com/webbeta/NSerializer/LICENSE</PackageLicense>
+        <RepositoryUrl>https://github.com/webbeta/NSerializer</RepositoryUrl>
+        <PackageTags>serializer, csharp, net core, group serialization</PackageTags>
+        <PackageReleaseNotes>Initial revision</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
