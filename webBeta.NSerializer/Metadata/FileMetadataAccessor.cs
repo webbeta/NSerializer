@@ -5,14 +5,14 @@ namespace webBeta.NSerializer.Metadata
 {
     public class FileMetadataAccessor : IMetadataAccessor
     {
-        private const string YAML_EXT = ".yaml";
-        private const string YML_EXT = ".yml";
+        private const string YamlExt = ".yaml";
+        private const string YmlExt = ".yml";
 
-        protected string metadataPath;
+        protected string MetadataPath;
 
         public void SetMetadataPath(string path)
         {
-            metadataPath = path;
+            MetadataPath = path;
         }
 
         public bool HasMetadata(Type klass)
@@ -24,25 +24,25 @@ namespace webBeta.NSerializer.Metadata
         public string GetMetadataContent(Type klass)
         {
             if (HasYmlMetadata(klass))
-                return File.ReadAllText(BuildPath(klass, YML_EXT));
+                return File.ReadAllText(BuildPath(klass, YmlExt));
             if (HasYamlMetadata(klass))
-                return File.ReadAllText(BuildPath(klass, YAML_EXT));
+                return File.ReadAllText(BuildPath(klass, YamlExt));
             return null;
         }
 
         private string BuildPath(Type klass, string extension)
         {
-            return Path.Combine(metadataPath, klass.FullName + extension);
+            return Path.Combine(MetadataPath, klass.FullName + extension);
         }
 
         private bool HasYmlMetadata(Type klass)
         {
-            return File.Exists(BuildPath(klass, YML_EXT));
+            return File.Exists(BuildPath(klass, YmlExt));
         }
 
         private bool HasYamlMetadata(Type klass)
         {
-            return File.Exists(BuildPath(klass, YAML_EXT));
+            return File.Exists(BuildPath(klass, YamlExt));
         }
     }
 }
