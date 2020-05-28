@@ -1,4 +1,4 @@
-# webBeta NSerializer
+# webBeta NSerializer 
 
 [![Build Status](https://travis-ci.org/webbeta/NSerializer.svg?branch=master)](https://travis-ci.org/webbeta/NSerializer)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c9db06803de94cc6aaea9e2fdcbd494e)](https://www.codacy.com/gh/webbeta/NSerializer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=webbeta/NSerializer&amp;utm_campaign=Badge_Grade)
