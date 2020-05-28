@@ -20,4 +20,3 @@ jobs:
         uses: rohith/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: webBeta.NSerializer/webBeta.NSerializer.csproj
-          TAG_FORMAT: *
